@@ -1,9 +1,10 @@
 const express = require("express");
+const exphbs = require("express-handlebars");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const passport = require("passport");
-const exphbs = require("express-handlebars");
+
 // Load User Model
 require("./models/User");
 
@@ -31,7 +32,8 @@ mongoose
   .catch(err => console.log(err));
 
 const app = express();
-// Handlebars middlewaresss
+
+// Handlebars Middleware
 app.engine(
   "handlebars",
   exphbs({
@@ -39,7 +41,7 @@ app.engine(
   })
 );
 app.set("view engine", "handlebars");
-// Cookie parser and express-session middlewares
+
 app.use(cookieParser());
 app.use(
   session({
@@ -58,6 +60,7 @@ app.use((req, res, next) => {
   res.locals.user = req.user || null;
   next();
 });
+
 // Use Routes
 app.use("/", index);
 app.use("/auth", auth);
